@@ -46,7 +46,7 @@
 
   <!-- Print Header -->
   <div class="print-only-header text-center border-b pb-4">
-    <h1 class="text-2xl font-bold">Monthly Expense & Income Statement 🌸</h1>
+    <h1 class="text-2xl font-bold">Monthly Expense, Income & Savings Statement 🌸</h1>
     <p id="print-month-label" class="text-sm text-slate-500 font-semibold"></p>
   </div>
 
@@ -137,6 +137,60 @@
       <div class="bg-gradient-to-br from-emerald-500/10 to-teal-500/10 dark:from-emerald-950/40 dark:to-teal-950/20 p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-200/70 dark:border-emerald-800/60">
         <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">Net Final</span>
         <div class="text-base sm:text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1.5 kpi-net-after">0 EGP</div>
+      </div>
+    </div>
+
+    <!-- Savings & Target Planning Section -->
+    <div class="bg-gradient-to-r from-violet-500/10 via-purple-500/10 to-pink-500/10 dark:from-violet-950/40 dark:to-pink-950/30 p-6 rounded-3xl shadow-sm border border-purple-200/60 dark:border-purple-900/50">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        
+        <!-- Target Savings Input & Status -->
+        <div class="space-y-2 flex-1">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">💰</span>
+            <div>
+              <h2 class="text-base font-bold text-slate-900 dark:text-white">Monthly Target Savings</h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Enter the amount you intend to save this month</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 pt-1">
+            <div class="relative w-48">
+              <input type="number" id="target-savings-input" onchange="saveTargetSavings(this.value)" placeholder="0" class="w-full bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-800 rounded-xl px-3.5 py-2 text-sm font-bold text-purple-700 dark:text-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400 shadow-sm">
+              <span class="absolute right-3 top-2 text-xs font-semibold text-slate-400">EGP</span>
+            </div>
+            <span id="savings-badge" class="text-xs font-bold px-3 py-1 rounded-full bg-purple-100 text-purple-800 dark:bg-purple-950/80 dark:text-purple-300">
+              Set a target
+            </span>
+          </div>
+        </div>
+
+        <!-- Calculated Savings Metrics -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 md:w-auto w-full">
+          <div class="bg-white/80 dark:bg-slate-900/80 p-3.5 rounded-2xl border border-purple-100 dark:border-purple-900/40 shadow-xs">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">Target Savings</span>
+            <div id="metric-target-savings" class="text-base font-black text-slate-800 dark:text-white mt-0.5">0 EGP</div>
+          </div>
+          <div class="bg-white/80 dark:bg-slate-900/80 p-3.5 rounded-2xl border border-purple-100 dark:border-purple-900/40 shadow-xs">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Projected Surplus</span>
+            <div id="metric-projected-surplus" class="text-base font-black text-emerald-600 dark:text-emerald-400 mt-0.5">0 EGP</div>
+          </div>
+          <div class="bg-white/80 dark:bg-slate-900/80 p-3.5 rounded-2xl border border-purple-100 dark:border-purple-900/40 shadow-xs col-span-2 sm:col-span-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Free Cash Flow</span>
+            <div id="metric-free-cash" class="text-base font-black text-slate-800 dark:text-white mt-0.5">0 EGP</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Savings Progress Bar -->
+      <div class="mt-4 pt-3 border-t border-purple-200/50 dark:border-purple-900/40">
+        <div class="flex justify-between text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
+          <span id="savings-progress-label">Savings Target Progress: 0%</span>
+          <span id="savings-progress-gap">Target: 0 EGP</span>
+        </div>
+        <div class="w-full bg-slate-200/80 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
+          <div id="savings-progress-bar" class="bg-gradient-to-r from-purple-500 to-pink-500 h-full w-0 transition-all duration-500 rounded-full"></div>
+        </div>
       </div>
     </div>
 
@@ -285,6 +339,7 @@
     let allExpenses = [];
     let allIncome = [];
     let totalIncome = 0;
+    let targetSavings = 0;
     let currentPage = 1;
     const pageSize = 15;
     let countdown = 30;
@@ -412,6 +467,19 @@
       }
     }
 
+    async function saveTargetSavings(value) {
+      const num = parseFloat(value) || 0;
+      targetSavings = num;
+      updateMetricsAndCharts();
+
+      try {
+        const url = `${WEB_APP_URL}?action=updateSavings&sheetName=${encodeURIComponent(currentMonth)}&amount=${num}`;
+        await fetch(url);
+      } catch (e) {
+        console.log('Savings goal saved locally');
+      }
+    }
+
     function toggleSound() {
       isSoundEnabled = !isSoundEnabled;
       localStorage.setItem('miriem_soundEnabled', isSoundEnabled ? 'true' : 'false');
@@ -515,6 +583,10 @@
       }
 
       totalIncome = parseFloat(data.totalIncome) || 0;
+      targetSavings = parseFloat(data.targetSavings) || 0;
+
+      const savingsInput = document.getElementById('target-savings-input');
+      if (savingsInput) savingsInput.value = targetSavings > 0 ? targetSavings : '';
 
       allExpenses = [];
       const expRows = data.expenses || [];
@@ -747,14 +819,61 @@
 
       const remaining = expensesPlanned - spentSoFar;
       const netNow = totalIncome - spentSoFar;
-      const netAfter = totalIncome - expensesPlanned;
+      const netAfter = totalIncome - expensesPlanned; // Projected surplus
 
+      // Update Top KPIs
       document.querySelectorAll('.kpi-total-income').forEach(el => el.innerText = `${totalIncome.toLocaleString()} EGP`);
       document.querySelectorAll('.kpi-expenses-planned').forEach(el => el.innerText = `${expensesPlanned.toLocaleString()} EGP`);
       document.querySelectorAll('.kpi-paid-so-far').forEach(el => el.innerText = `${spentSoFar.toLocaleString()} EGP`);
       document.querySelectorAll('.kpi-remaining').forEach(el => el.innerText = `${remaining.toLocaleString()} EGP`);
       document.querySelectorAll('.kpi-net-now').forEach(el => el.innerText = `${netNow.toLocaleString()} EGP`);
       document.querySelectorAll('.kpi-net-after').forEach(el => el.innerText = `${netAfter.toLocaleString()} EGP`);
+
+      // Update Savings Section Metrics
+      const targetSavingsEl = document.getElementById('metric-target-savings');
+      const projectedSurplusEl = document.getElementById('metric-projected-surplus');
+      const freeCashEl = document.getElementById('metric-free-cash');
+      const badgeEl = document.getElementById('savings-badge');
+      const progressLabel = document.getElementById('savings-progress-label');
+      const progressGap = document.getElementById('savings-progress-gap');
+      const progressBar = document.getElementById('savings-progress-bar');
+
+      const freeCash = netAfter - targetSavings;
+
+      if (targetSavingsEl) targetSavingsEl.innerText = `${targetSavings.toLocaleString()} EGP`;
+      if (projectedSurplusEl) projectedSurplusEl.innerText = `${netAfter.toLocaleString()} EGP`;
+      if (freeCashEl) {
+        freeCashEl.innerText = `${freeCash.toLocaleString()} EGP`;
+        freeCashEl.className = `text-base font-black mt-0.5 ${freeCash >= 0 ? 'text-slate-800 dark:text-white' : 'text-rose-500'}`;
+      }
+
+      if (targetSavings > 0) {
+        const percentage = Math.min(100, Math.max(0, Math.round((netAfter / targetSavings) * 100)));
+        if (progressBar) progressBar.style.width = `${percentage}%`;
+        if (progressLabel) progressLabel.innerText = `Savings Target Funded: ${percentage}%`;
+
+        if (netAfter >= targetSavings) {
+          if (badgeEl) {
+            badgeEl.className = "text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300";
+            badgeEl.innerText = "✓ Target Achieved";
+          }
+          if (progressGap) progressGap.innerText = `Surplus Buffer: +${(netAfter - targetSavings).toLocaleString()} EGP`;
+        } else {
+          if (badgeEl) {
+            badgeEl.className = "text-xs font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300";
+            badgeEl.innerText = "Shortfall";
+          }
+          if (progressGap) progressGap.innerText = `Gap: -${(targetSavings - netAfter).toLocaleString()} EGP`;
+        }
+      } else {
+        if (progressBar) progressBar.style.width = '0%';
+        if (progressLabel) progressLabel.innerText = 'Savings Target Progress: 0%';
+        if (progressGap) progressGap.innerText = 'No target set';
+        if (badgeEl) {
+          badgeEl.className = "text-xs font-bold px-3 py-1 rounded-full bg-purple-100 text-purple-800 dark:bg-purple-950/80 dark:text-purple-300";
+          badgeEl.innerText = "Set a target";
+        }
+      }
 
       renderPaidChart(spentSoFar, remaining > 0 ? remaining : 0);
     }
@@ -906,6 +1025,8 @@
       allIncome.forEach(i => {
         csv += `"${i.source.replace(/"/g, '""')}",${i.amount}\n`;
       });
+
+      csv += `\nTARGET SAVINGS\nAmount,${targetSavings}\n`;
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
