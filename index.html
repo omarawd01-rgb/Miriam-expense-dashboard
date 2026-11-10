@@ -3,42 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>Miriem - Expense & Income Dashboard 🌸</title>
+  <title>Miriem's Dashboard 🌸</title>
   
   <meta name="theme-color" content="#f43f5e">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Miriem Expenses">
+  <meta name="apple-mobile-web-app-title" content="Miriem Budget">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#fff1f2',
-              100: '#ffe4e6',
-              500: '#f43f5e',
-              600: '#e11d48',
-              700: '#be123c',
-            }
-          }
-        }
-      }
-    };
+    tailwind.config = { darkMode: 'class' };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     .custom-scrollbar::-webkit-scrollbar { width: 5px; }
     .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #fecdd3; border-radius: 4px; }
-    .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; }
 
     @keyframes checkPop {
       0% { transform: scale(1); }
@@ -57,7 +42,7 @@
     .print-only-header { display: none; }
   </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans min-h-screen pb-14 transition-colors duration-200">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans min-h-screen pb-16 transition-colors duration-200">
 
   <!-- Print Header -->
   <div class="print-only-header text-center border-b pb-4">
@@ -66,25 +51,25 @@
   </div>
 
   <!-- Top Glassmorphism Navigation Bar -->
-  <header class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-md shadow-sm border-b border-rose-100 dark:border-slate-700/80 sticky top-0 z-30">
+  <header class="bg-white/85 dark:bg-slate-900/85 backdrop-blur-md shadow-sm border-b border-slate-200/80 dark:border-slate-800 sticky top-0 z-30 transition-colors">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-3">
       
       <!-- Brand & Month Dropdown -->
       <div class="flex items-center gap-3 flex-wrap">
-        <span class="text-3xl filter drop-shadow-sm select-none">🌸</span>
+        <span class="text-3xl select-none">🌸</span>
         <div>
           <h1 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-tight">Miriem's Dashboard</h1>
-          <p class="text-[11px] text-rose-500 dark:text-rose-400 font-medium">Live Google Sheet Sync</p>
+          <p class="text-[11px] text-rose-500 font-medium">Live Google Sheet Sync</p>
         </div>
 
         <div class="flex items-center gap-1.5 ml-2">
-          <select id="month-selector" onchange="onMonthChange(this.value)" class="bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-white text-xs font-semibold rounded-lg px-2.5 py-1.5 focus:ring-2 focus:ring-rose-400 shadow-sm">
+          <select id="month-selector" onchange="onMonthChange(this.value)" class="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs font-semibold rounded-xl px-3 py-1.5 focus:ring-2 focus:ring-rose-500 focus:outline-none shadow-sm">
             <option value="">Loading sheets...</option>
           </select>
-          <button onclick="openAddMonthModal()" class="bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/60 text-rose-600 dark:text-rose-300 border border-rose-200 dark:border-rose-900 text-xs font-bold px-2.5 py-1.5 rounded-lg transition-colors shadow-sm" title="Start New Month Tab">
+          <button onclick="openAddMonthModal()" class="bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/50 text-rose-600 dark:text-rose-300 border border-rose-200 dark:border-rose-900 text-xs font-semibold px-2.5 py-1.5 rounded-xl transition-all shadow-sm" title="Start New Month Tab">
             + Month
           </button>
-          <button onclick="confirmDeleteCurrentMonth()" class="bg-slate-100 dark:bg-slate-800 hover:bg-rose-50 dark:hover:bg-rose-900/30 text-slate-500 hover:text-rose-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 text-xs font-bold px-2 py-1.5 rounded-lg transition-colors" title="Delete Current Month Tab">
+          <button onclick="confirmDeleteCurrentMonth()" class="bg-slate-100 dark:bg-slate-800 hover:bg-red-50 dark:hover:bg-red-950/50 text-slate-500 hover:text-red-600 border border-slate-200 dark:border-slate-700 text-xs font-semibold px-2 py-1.5 rounded-xl transition-all shadow-sm" title="Delete Current Month Tab">
             🗑️
           </button>
         </div>
@@ -92,133 +77,138 @@
 
       <!-- Action Toolbar -->
       <div class="flex items-center gap-2">
-        <div class="flex items-center gap-1">
-          <button onclick="exportToCSV()" class="bg-white dark:bg-slate-700 hover:bg-slate-50 text-slate-700 dark:text-slate-200 text-xs font-semibold px-2.5 py-2 rounded-lg border border-slate-200 dark:border-slate-600 shadow-sm" title="Export CSV">
+        <div class="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 rounded-xl border border-slate-200 dark:border-slate-700">
+          <button onclick="exportToCSV()" class="hover:bg-white dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold px-2.5 py-1.5 rounded-lg transition-all" title="Export CSV">
             📄 CSV
           </button>
-          <button onclick="exportToPDF()" class="bg-white dark:bg-slate-700 hover:bg-slate-50 text-slate-700 dark:text-slate-200 text-xs font-semibold px-2.5 py-2 rounded-lg border border-slate-200 dark:border-slate-600 shadow-sm" title="Export PDF Statement">
+          <button onclick="exportToPDF()" class="hover:bg-white dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold px-2.5 py-1.5 rounded-lg transition-all" title="Export PDF Statement">
             🖨️ PDF
           </button>
         </div>
 
-        <button onclick="toggleSound()" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs px-2.5 py-2 rounded-lg border border-slate-200 dark:border-slate-600 shadow-sm" title="Toggle Sound">
+        <button onclick="toggleSound()" class="bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs p-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm" title="Toggle Sound">
           <span class="sound-toggle-icon">🔔</span>
         </button>
 
-        <button onclick="toggleDarkMode()" class="bg-white dark:bg-slate-700 text-slate-700 dark:text-amber-300 text-xs px-2.5 py-2 rounded-lg border border-slate-200 dark:border-slate-600 shadow-sm" title="Toggle Theme">
+        <button onclick="toggleDarkMode()" class="bg-white dark:bg-slate-800 text-slate-700 dark:text-amber-300 text-xs p-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm" title="Toggle Theme">
           <span class="theme-icon">🌙</span>
         </button>
 
-        <button onclick="openIncomeModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs px-3 py-2 rounded-lg transition-all shadow-sm hover:shadow">
+        <button onclick="openIncomeModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs px-3 py-2 rounded-xl transition-all shadow-sm">
           + Income
         </button>
-        <button onclick="openAddModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-medium text-xs px-3 py-2 rounded-lg transition-all shadow-sm hover:shadow">
+        <button onclick="openAddModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-semibold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm shadow-rose-500/20">
           + Expense
         </button>
-        <button onclick="manualSync()" class="bg-slate-800 hover:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 text-white font-medium text-xs px-3 py-2 rounded-lg transition-all shadow-sm flex items-center gap-1" title="Sync Now">
+        <button onclick="manualSync()" class="bg-slate-900 hover:bg-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600 text-white text-xs px-2.5 py-2 rounded-xl transition-all shadow-sm flex items-center gap-1" title="Sync Now">
           <svg id="refresh-icon" class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
             <path d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-.61-1.276z"/>
           </svg>
-          <span class="hidden sm:inline">Sync</span>
         </button>
       </div>
     </div>
   </header>
 
   <!-- Main Container -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-7">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
-    <!-- KPI Cards Grid -->
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5">
-      <div class="bg-white dark:bg-slate-800 p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/80">
-        <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Total Income</span>
-        <div class="text-lg sm:text-2xl font-extrabold text-slate-900 dark:text-white mt-1.5 kpi-total-income">0 EGP</div>
+    <!-- KPI Metric Cards Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-4">
+      <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800">
+        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Total Income</span>
+        <div class="text-base sm:text-2xl font-black text-slate-900 dark:text-white mt-1.5 kpi-total-income">0 EGP</div>
       </div>
-      <div class="bg-white dark:bg-slate-800 p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/80">
-        <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-rose-500 dark:text-rose-400">Planned Expenses</span>
-        <div class="text-lg sm:text-2xl font-extrabold text-slate-900 dark:text-white mt-1.5 kpi-expenses-planned">0 EGP</div>
+      <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800">
+        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-rose-500 dark:text-rose-400">Planned Budget</span>
+        <div class="text-base sm:text-2xl font-black text-slate-900 dark:text-white mt-1.5 kpi-expenses-planned">0 EGP</div>
       </div>
-      <div class="bg-white dark:bg-slate-800 p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/80">
-        <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-indigo-500 dark:text-indigo-400">Spent So Far</span>
-        <div class="text-lg sm:text-2xl font-extrabold text-indigo-600 dark:text-indigo-400 mt-1.5 kpi-paid-so-far">0 EGP</div>
+      <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800">
+        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-sky-500 dark:text-sky-400">Spent So Far</span>
+        <div class="text-base sm:text-2xl font-black text-sky-600 dark:text-sky-400 mt-1.5 kpi-paid-so-far">0 EGP</div>
       </div>
-      <div class="bg-white dark:bg-slate-800 p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/80">
-        <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-amber-500 dark:text-amber-400">Remaining</span>
-        <div class="text-lg sm:text-2xl font-extrabold text-amber-600 dark:text-amber-400 mt-1.5 kpi-remaining">0 EGP</div>
+      <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800">
+        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-amber-500 dark:text-amber-400">Remaining</span>
+        <div class="text-base sm:text-2xl font-black text-amber-600 dark:text-amber-400 mt-1.5 kpi-remaining">0 EGP</div>
       </div>
-      <div class="bg-white dark:bg-slate-800 p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/80">
-        <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-teal-600 dark:text-teal-400">Net Now</span>
-        <div class="text-lg sm:text-2xl font-extrabold text-teal-600 dark:text-teal-400 mt-1.5 kpi-net-now">0 EGP</div>
+      <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800">
+        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-indigo-500 dark:text-indigo-400">Net Now</span>
+        <div class="text-base sm:text-2xl font-black text-indigo-600 dark:text-indigo-400 mt-1.5 kpi-net-now">0 EGP</div>
       </div>
-      <div class="bg-white dark:bg-slate-800 p-4 sm:p-5 rounded-2xl shadow-sm border border-rose-100 dark:border-slate-700/80 bg-rose-50/30 dark:bg-rose-950/20">
-        <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-300">Net Final</span>
-        <div class="text-lg sm:text-2xl font-extrabold text-rose-600 dark:text-rose-400 mt-1.5 kpi-net-after">0 EGP</div>
+      <div class="bg-gradient-to-br from-emerald-500/10 to-teal-500/10 dark:from-emerald-950/40 dark:to-teal-950/20 p-4 sm:p-5 rounded-2xl shadow-sm border border-emerald-200/70 dark:border-emerald-800/60">
+        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">Net Final</span>
+        <div class="text-base sm:text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1.5 kpi-net-after">0 EGP</div>
       </div>
     </div>
 
     <!-- Centered Doughnut Chart -->
-    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/80 max-w-xl mx-auto">
-      <h2 class="text-sm font-bold text-slate-800 dark:text-white mb-3 text-center">Budget Spent vs Remaining</h2>
-      <div class="relative h-60"><canvas id="paidChartDesktop"></canvas></div>
+    <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm p-6 rounded-3xl shadow-sm border border-slate-200/80 dark:border-slate-800 max-w-lg mx-auto">
+      <h2 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3 text-center">Spent vs Remaining</h2>
+      <div class="relative h-56"><canvas id="paidChartDesktop"></canvas></div>
     </div>
 
     <!-- Expenses Checklist Table -->
-    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/80 overflow-hidden">
-      <div class="p-4 border-b border-slate-100 dark:border-slate-700/80 flex justify-between items-center bg-slate-50/60 dark:bg-slate-800/50">
-        <h2 class="text-sm font-bold text-slate-800 dark:text-white" id="expenses-table-heading">Expenses Checklist</h2>
-        <span class="text-xs text-slate-400 dark:text-slate-400 last-updated">Last sync: --</span>
+    <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-3xl shadow-sm border border-slate-200/80 dark:border-slate-800 overflow-hidden">
+      <div class="p-5 border-b border-slate-100 dark:border-slate-800/80 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/40">
+        <div>
+          <h2 class="text-base font-bold text-slate-900 dark:text-white" id="expenses-table-heading">Expenses Checklist</h2>
+          <p class="text-xs text-slate-400">Click amounts or descriptions to edit inline</p>
+        </div>
+        <span class="text-xs text-slate-400 last-updated font-medium">Last sync: --</span>
       </div>
 
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm text-slate-600 dark:text-slate-300" id="expenses-table">
-          <thead class="bg-slate-100/70 dark:bg-slate-700/50 text-slate-700 dark:text-slate-200 uppercase text-[11px] font-semibold tracking-wider">
+          <thead class="bg-slate-100/70 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 uppercase text-[11px] font-bold tracking-wider">
             <tr>
-              <th class="px-4 py-3.5 w-32">Status</th>
-              <th class="px-4 py-3.5">Expense Name</th>
-              <th class="px-4 py-3.5 text-right">Planned Budget</th>
-              <th class="px-4 py-3.5 text-right">Spent So Far</th>
-              <th class="px-4 py-3.5 text-right">Remaining</th>
-              <th class="px-4 py-3.5 text-center w-24 no-print">Actions</th>
+              <th class="px-5 py-3.5 w-32">Status</th>
+              <th class="px-5 py-3.5">Expense Description</th>
+              <th class="px-5 py-3.5 text-right">Planned (EGP)</th>
+              <th class="px-5 py-3.5 text-right">Spent (EGP)</th>
+              <th class="px-5 py-3.5 text-right">Remaining</th>
+              <th class="px-5 py-3.5 text-center w-24 no-print">Actions</th>
             </tr>
           </thead>
-          <tbody id="desktop-table-body" class="divide-y divide-slate-100 dark:divide-slate-700/70">
+          <tbody id="desktop-table-body" class="divide-y divide-slate-100 dark:divide-slate-800">
             <tr>
-              <td colspan="6" class="px-6 py-8 text-center text-slate-400">Loading expenses...</td>
+              <td colspan="6" class="px-6 py-12 text-center text-slate-400">Loading expense sheet...</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div class="px-6 py-3.5 border-t border-slate-100 dark:border-slate-700/80 flex justify-between items-center bg-slate-50/60 dark:bg-slate-800/50 text-xs text-slate-500 dark:text-slate-400 no-print">
+      <div class="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/40 text-xs font-semibold text-slate-500 dark:text-slate-400 no-print">
         <span id="page-info">Showing 0-0 of 0</span>
         <div class="flex gap-2">
-          <button id="prev-btn" onclick="changePage(-1)" class="px-3 py-1 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 disabled:opacity-40">Previous</button>
-          <button id="next-btn" onclick="changePage(1)" class="px-3 py-1 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-600 disabled:opacity-40">Next</button>
+          <button id="prev-btn" onclick="changePage(-1)" class="px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-40 transition-all shadow-sm">Previous</button>
+          <button id="next-btn" onclick="changePage(1)" class="px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-40 transition-all shadow-sm">Next</button>
         </div>
       </div>
     </div>
 
     <!-- Income Breakdown Table -->
-    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/80 overflow-hidden">
-      <div class="p-4 border-b border-slate-100 dark:border-slate-700/80 flex justify-between items-center bg-emerald-50/40 dark:bg-emerald-950/20">
-        <h2 class="text-sm font-bold text-emerald-900 dark:text-emerald-300">Income Breakdown</h2>
-        <button onclick="openIncomeModal()" class="text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg transition-colors shadow-sm no-print">
+    <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-3xl shadow-sm border border-slate-200/80 dark:border-slate-800 overflow-hidden">
+      <div class="p-5 border-b border-emerald-100/60 dark:border-emerald-950/60 flex justify-between items-center bg-emerald-50/40 dark:bg-emerald-950/20">
+        <div>
+          <h2 class="text-base font-bold text-emerald-950 dark:text-emerald-300">Income Entries</h2>
+          <p class="text-xs text-emerald-700/70 dark:text-emerald-400/60">Click any source or amount to edit or delete</p>
+        </div>
+        <button onclick="openIncomeModal()" class="text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl transition-all shadow-sm no-print">
           + Add Income
         </button>
       </div>
 
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm text-slate-600 dark:text-slate-300">
-          <thead class="bg-slate-100/70 dark:bg-slate-700/50 text-slate-700 dark:text-slate-200 uppercase text-[11px] font-semibold tracking-wider">
+          <thead class="bg-slate-100/70 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 uppercase text-[11px] font-bold tracking-wider">
             <tr>
-              <th class="px-6 py-3.5">Income Source / Description</th>
+              <th class="px-6 py-3.5">Income Source</th>
               <th class="px-6 py-3.5 text-right">Amount (EGP)</th>
               <th class="px-6 py-3.5 text-center w-24 no-print">Actions</th>
             </tr>
           </thead>
-          <tbody id="desktop-income-table-body" class="divide-y divide-slate-100 dark:divide-slate-700/70">
+          <tbody id="desktop-income-table-body" class="divide-y divide-slate-100 dark:divide-slate-800">
             <tr>
-              <td colspan="3" class="px-6 py-8 text-center text-slate-400">Loading income data...</td>
+              <td colspan="3" class="px-6 py-8 text-center text-slate-400">No income entered yet.</td>
             </tr>
           </tbody>
         </table>
@@ -228,63 +218,63 @@
   </main>
 
   <!-- Add New Month Modal -->
-  <div id="month-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-4 border border-slate-100 dark:border-slate-700">
+  <div id="month-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs hidden items-center justify-center z-50 p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 border border-slate-200 dark:border-slate-800">
       <h3 class="text-base font-bold text-slate-900 dark:text-white">Start New Month Tab</h3>
-      <p class="text-xs text-slate-500 dark:text-slate-400">Creates a fresh sheet tab with recurring items and spent amounts reset to 0.</p>
+      <p class="text-xs text-slate-500 dark:text-slate-400">Creates a fresh month sheet with your budget descriptions while resetting spent amounts to 0.</p>
       <div>
-        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase mb-1">New Month Tab Name</label>
-        <input type="text" id="new-month-input" placeholder="e.g. November 2026" class="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-400">
+        <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Month Tab Name</label>
+        <input type="text" id="new-month-input" placeholder="e.g. November 2026" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-800 rounded-xl px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500">
       </div>
       <div class="flex justify-end gap-2.5 pt-2">
-        <button onclick="closeAddMonthModal()" class="px-4 py-2 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">Cancel</button>
-        <button onclick="submitNewMonth()" id="month-submit-btn" class="px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-lg text-sm font-medium shadow-sm">Create Month</button>
+        <button onclick="closeAddMonthModal()" class="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Cancel</button>
+        <button onclick="submitNewMonth()" id="month-submit-btn" class="px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-xs font-bold shadow-sm">Create Month</button>
       </div>
     </div>
   </div>
 
   <!-- Add Expense Modal -->
-  <div id="add-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 dark:border-slate-700">
-      <h3 class="text-base font-bold text-slate-900 dark:text-white">Add Expense</h3>
+  <div id="add-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs hidden items-center justify-center z-50 p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-200 dark:border-slate-800">
+      <h3 class="text-base font-bold text-slate-900 dark:text-white">Add New Expense</h3>
       <div>
-        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase mb-1">Expense Description</label>
-        <input type="text" id="new-desc" placeholder="e.g. Groceries" class="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-400">
-      </div>
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase mb-1">Planned Budget (EGP)</label>
-        <input type="number" id="new-amount" placeholder="0" class="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-400">
+        <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Expense Description</label>
+        <input type="text" id="new-desc" placeholder="e.g. Groceries / Electricity" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-800 rounded-xl px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500">
       </div>
       <div>
-        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase mb-1">Spent So Far (EGP)</label>
-        <input type="number" id="new-spent" placeholder="0" class="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-400">
+        <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Planned Budget (EGP)</label>
+        <input type="number" id="new-amount" placeholder="0" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-800 rounded-xl px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500">
       </div>
-      <div class="flex items-center gap-2">
-        <input type="checkbox" id="new-status" onchange="toggleModalSpentAutoFill()" class="w-4 h-4 text-rose-500 rounded border-slate-300">
-        <label for="new-status" class="text-sm text-slate-700 dark:text-slate-300">Mark as Fully Paid immediately</label>
+      <div>
+        <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Spent So Far (EGP)</label>
+        <input type="number" id="new-spent" placeholder="0" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-800 rounded-xl px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500">
       </div>
-      <div class="flex justify-end gap-2.5 pt-2">
-        <button onclick="closeAddModal()" class="px-4 py-2 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">Cancel</button>
-        <button onclick="submitNewExpense()" id="submit-btn" class="px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-lg text-sm font-medium shadow-sm">Add Expense</button>
+      <div class="flex items-center gap-2 pt-1">
+        <input type="checkbox" id="new-status" onchange="toggleModalSpentAutoFill()" class="w-4 h-4 text-rose-500 rounded border-slate-300 focus:ring-rose-500">
+        <label for="new-status" class="text-xs font-semibold text-slate-700 dark:text-slate-300">Mark as Fully Paid immediately</label>
+      </div>
+      <div class="flex justify-end gap-2.5 pt-3">
+        <button onclick="closeAddModal()" class="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Cancel</button>
+        <button onclick="submitNewExpense()" id="submit-btn" class="px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-xs font-bold shadow-sm shadow-rose-500/20">Add Expense</button>
       </div>
     </div>
   </div>
 
   <!-- Add Income Modal -->
-  <div id="income-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 dark:border-slate-700">
-      <h3 class="text-base font-bold text-slate-900 dark:text-white">Add Income</h3>
+  <div id="income-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs hidden items-center justify-center z-50 p-4">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-200 dark:border-slate-800">
+      <h3 class="text-base font-bold text-slate-900 dark:text-white">Add Income Entry</h3>
       <div>
-        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase mb-1">Income Source Name</label>
-        <input type="text" id="inc-source" placeholder="e.g. Salary / Project" class="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400">
+        <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Source / Label</label>
+        <input type="text" id="inc-source" placeholder="e.g. Monthly Salary / Freelance" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-800 rounded-xl px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
       </div>
       <div>
-        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase mb-1">Amount (EGP)</label>
-        <input type="number" id="inc-amount" placeholder="0" class="w-full border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400">
+        <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Amount (EGP)</label>
+        <input type="number" id="inc-amount" placeholder="0" class="w-full border border-slate-200 dark:border-slate-700 dark:bg-slate-800 rounded-xl px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
       </div>
-      <div class="flex justify-end gap-2.5 pt-2">
-        <button onclick="closeIncomeModal()" class="px-4 py-2 border border-slate-200 dark:border-slate-600 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">Cancel</button>
-        <button onclick="submitNewIncome()" id="inc-submit-btn" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium shadow-sm">Add Income</button>
+      <div class="flex justify-end gap-2.5 pt-3">
+        <button onclick="closeIncomeModal()" class="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Cancel</button>
+        <button onclick="submitNewIncome()" id="inc-submit-btn" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-sm">Save Income</button>
       </div>
     </div>
   </div>
@@ -396,7 +386,7 @@
         return;
       }
 
-      const confirmed = confirm(`Permanently delete "${currentMonth}"? All records will be removed from Google Sheets.`);
+      const confirmed = confirm(`Are you sure you want to delete "${currentMonth}"?`);
       if (!confirmed) return;
 
       const refreshIcon = document.getElementById('refresh-icon');
@@ -416,7 +406,7 @@
         }
       } catch (err) {
         console.error(err);
-        alert('Failed to delete month sheet.');
+        alert('Failed to delete month.');
       } finally {
         if (refreshIcon) refreshIcon.classList.remove('animate-spin');
       }
@@ -447,16 +437,14 @@
         osc1.type = 'sine';
         osc1.frequency.setValueAtTime(698.46, now);
         osc1.frequency.exponentialRampToValueAtTime(880, now + 0.12);
-        gain1.gain.setValueAtTime(0.15, now);
+        gain1.gain.setValueAtTime(0.12, now);
         gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
         osc1.connect(gain1);
         gain1.connect(audioCtx.destination);
 
         osc1.start(now);
         osc1.stop(now + 0.35);
-      } catch (e) {
-        console.warn('Audio blocked:', e);
-      }
+      } catch (e) {}
     }
 
     function toggleDarkMode() {
@@ -515,7 +503,7 @@
       if (printLabel) printLabel.innerText = `Period: ${currentMonth}`;
 
       const heading = document.getElementById('expenses-table-heading');
-      if (heading) heading.innerText = `${currentMonth} Expenses Checklist`;
+      if (heading) heading.innerText = `${currentMonth} Expenses`;
 
       if (data.sheets && data.sheets.length > 0) {
         const selector = document.getElementById('month-selector');
@@ -582,7 +570,7 @@
       if (isPaid && spent === 0) spent = amount;
 
       if (!desc || amount <= 0) {
-        alert('Please enter a description and budget.');
+        alert('Please enter a description and budget amount.');
         return;
       }
 
@@ -609,7 +597,7 @@
       const amount = parseFloat(document.getElementById('inc-amount').value);
 
       if (!source || isNaN(amount) || amount <= 0) {
-        alert('Please enter a valid income source name and amount.');
+        alert('Please enter an income description and valid amount.');
         return;
       }
 
@@ -626,7 +614,7 @@
       } catch (err) {
         console.error(err);
       } finally {
-        btn.innerText = 'Add Income';
+        btn.innerText = 'Save Income';
         btn.disabled = false;
       }
     }
@@ -655,19 +643,19 @@
 
       try {
         const url = `${WEB_APP_URL}?action=editExpense&sheetName=${encodeURIComponent(currentMonth)}&row=${item.rowIndex}&${field}=${encodeURIComponent(value)}`;
-        const res = await fetch(url);
-        await res.json();
+        await fetch(url);
       } catch (err) {
-        console.log('Optimistic edit saved');
+        console.log('Edit saved locally');
       }
     }
 
     async function saveIncomeEdit(index, field, value) {
       const item = allIncome[index];
       const originalValue = item[field];
+
       if (field === 'amount') {
         value = parseFloat(value);
-        if (isNaN(value) || value <= 0) return;
+        if (isNaN(value) || value < 0) return;
       } else {
         value = value.trim();
         if (!value) return;
@@ -679,11 +667,10 @@
 
       try {
         const url = `${WEB_APP_URL}?action=editIncome&sheetName=${encodeURIComponent(currentMonth)}&row=${item.rowIndex}&${field}=${encodeURIComponent(value)}`;
-        const res = await fetch(url);
-        await res.json();
+        await fetch(url);
         await fetchData();
       } catch (err) {
-        console.log('Optimistic income edit saved');
+        console.log('Income edit saved locally');
       }
     }
 
@@ -745,7 +732,7 @@
         sortExpenses();
         updateMetricsAndCharts();
         renderTable();
-        alert('Could not update status. Check internet connection.');
+        alert('Could not update status in Google Sheet.');
       }
     }
 
@@ -762,23 +749,23 @@
       const netNow = totalIncome - spentSoFar;
       const netAfter = totalIncome - expensesPlanned;
 
-      document.querySelectorAll('.kpi-total-income').forEach(el => el.innerText = `${totalIncome.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})} EGP`);
+      document.querySelectorAll('.kpi-total-income').forEach(el => el.innerText = `${totalIncome.toLocaleString()} EGP`);
       document.querySelectorAll('.kpi-expenses-planned').forEach(el => el.innerText = `${expensesPlanned.toLocaleString()} EGP`);
       document.querySelectorAll('.kpi-paid-so-far').forEach(el => el.innerText = `${spentSoFar.toLocaleString()} EGP`);
       document.querySelectorAll('.kpi-remaining').forEach(el => el.innerText = `${remaining.toLocaleString()} EGP`);
-      document.querySelectorAll('.kpi-net-now').forEach(el => el.innerText = `${netNow.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})} EGP`);
-      document.querySelectorAll('.kpi-net-after').forEach(el => el.innerText = `${netAfter.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})} EGP`);
+      document.querySelectorAll('.kpi-net-now').forEach(el => el.innerText = `${netNow.toLocaleString()} EGP`);
+      document.querySelectorAll('.kpi-net-after').forEach(el => el.innerText = `${netAfter.toLocaleString()} EGP`);
 
       renderPaidChart(spentSoFar, remaining > 0 ? remaining : 0);
     }
 
     function getStatusBadgeHtml(planned, spent) {
       if (spent >= planned && planned > 0) {
-        return `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300">PAID</span>`;
+        return `<span class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">PAID</span>`;
       } else if (spent > 0) {
-        return `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300">PARTIAL</span>`;
+        return `<span class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-sky-100 text-sky-800 dark:bg-sky-950/60 dark:text-sky-300">PARTIAL</span>`;
       } else {
-        return `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300">PENDING</span>`;
+        return `<span class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300">PENDING</span>`;
       }
     }
 
@@ -789,7 +776,7 @@
       const pageItems = allExpenses.slice(start, end);
 
       if (pageItems.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="px-6 py-10 text-center text-slate-400">No expenses recorded yet. Click <strong>+ Expense</strong> above to add one!</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-slate-400 font-medium">No expenses entered yet for this month. Click "+ Expense" above to add your first.</td></tr>`;
       } else {
         tbody.innerHTML = pageItems.map((r, pageIdx) => {
           const globalIdx = start + pageIdx;
@@ -797,29 +784,29 @@
           const isFullyPaid = r.spent >= r.amount && r.amount > 0;
 
           return `
-            <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-700/40 transition-colors ${isFullyPaid ? 'opacity-65 bg-slate-50/40 dark:bg-slate-800/40' : ''}">
-              <td class="px-4 py-3">
+            <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors ${isFullyPaid ? 'opacity-60 bg-slate-50/40 dark:bg-slate-900/30' : ''}">
+              <td class="px-5 py-3">
                 <div class="flex items-center gap-2">
-                  <button onclick="quickToggleFullyPaid(${globalIdx}, event)" title="Toggle Fully Paid" class="w-5 h-5 rounded-md border flex items-center justify-center transition-colors ${isFullyPaid ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-slate-300 dark:border-slate-600 hover:border-emerald-500'}">
+                  <button onclick="quickToggleFullyPaid(${globalIdx}, event)" title="Toggle Paid" class="w-5 h-5 rounded-lg border flex items-center justify-center transition-all ${isFullyPaid ? 'bg-rose-500 border-rose-500 text-white shadow-xs' : 'border-slate-300 dark:border-slate-600 hover:border-rose-400'}">
                     ${isFullyPaid ? '✓' : ''}
                   </button>
                   ${getStatusBadgeHtml(r.amount, r.spent)}
                 </div>
               </td>
-              <td class="px-4 py-3">
-                <input type="text" value="${r.desc}" onchange="saveExpenseEdit(${globalIdx}, 'desc', this.value)" class="bg-transparent border-b border-transparent hover:border-slate-300 dark:hover:border-slate-600 focus:border-rose-400 focus:bg-white dark:focus:bg-slate-700 px-1 py-0.5 rounded w-full font-medium ${isFullyPaid ? 'line-through text-slate-400' : 'text-slate-800 dark:text-slate-200'}">
+              <td class="px-5 py-3">
+                <input type="text" value="${r.desc}" onchange="saveExpenseEdit(${globalIdx}, 'desc', this.value)" class="bg-transparent border-b border-transparent hover:border-slate-300 dark:hover:border-slate-600 focus:border-rose-500 focus:bg-white dark:focus:bg-slate-800 px-1 py-0.5 rounded-lg w-full font-medium ${isFullyPaid ? 'line-through text-slate-400' : 'text-slate-800 dark:text-slate-200'}">
               </td>
-              <td class="px-4 py-3 text-right">
-                <input type="number" value="${r.amount}" onchange="saveExpenseEdit(${globalIdx}, 'amount', this.value)" class="bg-transparent border-b border-transparent hover:border-slate-300 dark:hover:border-slate-600 focus:border-rose-400 focus:bg-white dark:focus:bg-slate-700 text-right px-1 py-0.5 rounded w-24 font-semibold text-slate-900 dark:text-white">
+              <td class="px-5 py-3 text-right">
+                <input type="number" value="${r.amount}" onchange="saveExpenseEdit(${globalIdx}, 'amount', this.value)" class="bg-transparent border-b border-transparent hover:border-slate-300 dark:hover:border-slate-600 focus:border-rose-500 focus:bg-white dark:focus:bg-slate-800 text-right px-1 py-0.5 rounded-lg w-24 font-bold text-slate-900 dark:text-white">
               </td>
-              <td class="px-4 py-3 text-right">
-                <input type="number" value="${r.spent}" onchange="saveExpenseEdit(${globalIdx}, 'spent', this.value)" class="bg-transparent border-b border-transparent hover:border-slate-300 dark:hover:border-slate-600 focus:border-indigo-400 focus:bg-white dark:focus:bg-slate-700 text-right px-1 py-0.5 rounded w-24 font-bold text-indigo-600 dark:text-indigo-400">
+              <td class="px-5 py-3 text-right">
+                <input type="number" value="${r.spent}" onchange="saveExpenseEdit(${globalIdx}, 'spent', this.value)" class="bg-transparent border-b border-transparent hover:border-slate-300 dark:hover:border-slate-600 focus:border-sky-500 focus:bg-white dark:focus:bg-slate-800 text-right px-1 py-0.5 rounded-lg w-24 font-bold text-sky-600 dark:text-sky-400">
               </td>
-              <td class="px-4 py-3 text-right font-semibold ${remaining === 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}">
+              <td class="px-5 py-3 text-right font-bold ${remaining === 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}">
                 ${remaining.toLocaleString()} EGP
               </td>
-              <td class="px-4 py-3 text-center no-print">
-                <button onclick="deleteExpense(${globalIdx})" class="text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/30 p-1.5 rounded-lg transition-colors" title="Delete Expense">
+              <td class="px-5 py-3 text-center no-print">
+                <button onclick="deleteExpense(${globalIdx})" class="text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 p-1.5 rounded-lg transition-colors" title="Delete Expense">
                   <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
                 </button>
               </td>
@@ -841,19 +828,19 @@
       if (!tbody) return;
 
       if (!allIncome || allIncome.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="3" class="px-6 py-8 text-center text-slate-400">No income sources added yet. Click <strong>+ Add Income</strong> to enter one.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="3" class="px-6 py-8 text-center text-slate-400 font-medium">No income entered yet. Click "+ Add Income" to record salary or sources.</td></tr>`;
       } else {
         tbody.innerHTML = allIncome.map((item, idx) => {
           return `
-            <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-700/40 transition-colors">
+            <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors">
               <td class="px-6 py-3.5">
-                <input type="text" value="${item.source}" onchange="saveIncomeEdit(${idx}, 'source', this.value)" class="bg-transparent border-b border-transparent hover:border-slate-300 dark:hover:border-slate-600 focus:border-emerald-400 focus:bg-white dark:focus:bg-slate-700 px-1 py-0.5 rounded w-full font-medium text-slate-800 dark:text-slate-200">
+                <input type="text" value="${item.source}" onchange="saveIncomeEdit(${idx}, 'source', this.value)" class="bg-transparent border-b border-transparent hover:border-slate-300 dark:hover:border-slate-600 focus:border-emerald-500 focus:bg-white dark:focus:bg-slate-800 px-1 py-0.5 rounded-lg w-full font-semibold text-slate-800 dark:text-slate-200">
               </td>
               <td class="px-6 py-3.5 text-right">
-                <input type="number" value="${item.amount}" onchange="saveIncomeEdit(${idx}, 'amount', this.value)" class="bg-transparent border-b border-transparent hover:border-slate-300 dark:hover:border-slate-600 focus:border-emerald-400 focus:bg-white dark:focus:bg-slate-700 text-right px-1 py-0.5 rounded w-28 font-bold text-emerald-600 dark:text-emerald-400">
+                <input type="number" value="${item.amount}" onchange="saveIncomeEdit(${idx}, 'amount', this.value)" class="bg-transparent border-b border-transparent hover:border-slate-300 dark:hover:border-slate-600 focus:border-emerald-500 focus:bg-white dark:focus:bg-slate-800 text-right px-1 py-0.5 rounded-lg w-28 font-black text-emerald-600 dark:text-emerald-400">
               </td>
               <td class="px-6 py-3.5 text-center no-print">
-                <button onclick="deleteIncome(${idx})" class="text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/30 p-1.5 rounded-lg transition-colors" title="Delete Income">
+                <button onclick="deleteIncome(${idx})" class="text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 p-1.5 rounded-lg transition-colors" title="Delete Income">
                   <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
                 </button>
               </td>
@@ -875,7 +862,7 @@
       if (paidChartInstance) paidChartInstance.destroy();
 
       const isDark = document.documentElement.classList.contains('dark');
-      const textColor = isDark ? '#94A3B8' : '#64748B';
+      const textColor = isDark ? '#94a3b8' : '#64748b';
 
       paidChartInstance = new Chart(ctxDesktop, {
         type: 'doughnut',
@@ -883,245 +870,76 @@
           labels: ['Spent So Far', 'Remaining Budget'],
           datasets: [{ 
             data: [paid, remaining], 
-            backgroundColor: ['#6366Here are the updated files for both **Google Apps Script** and **GitHub (`index.html`)**.
-
-### Summary of Changes:
-1. **Empty Starting Canvas:** All placeholder expenses can be wiped cleanly directly in the sheet or deleted from the dashboard.
-2. **Removed Dollar Converter:** Removed all USD regex detection, exchange rate popups, GoogleFinance formulas, and rate-locking logic.
-3. **Fully Editable & Removable Income:** All income entries (including Salary and Rental Income in `D3:E4`) can now be dynamically edited or cleared directly from the dashboard, as well as any extra income rows.
-4. **Brand Icon:** Updated the logo and apple-touch icon to 🌸.
-5. **Modernized Visual Theme:** Replaced the default palette with a modern aesthetic featuring subtle glassmorphic blurs (`backdrop-blur-md`), refined card borders, clean modern typography, soft rounded corners, and a Rose/Violet accent scheme tailored to the new aesthetic.
-
----
-
-### Part 1: Updated Google Apps Script (`Code.gs`)
-
-1. Open your Google Sheet: [Copy of Miriem Monthly Checklist](https://docs.google.com/spreadsheets/d/1TkwTmKnN7qnfTFtDwYO6eWkV59l1BlXAWPEzF3R4KEA/edit?usp=sharing).
-2. Go to **Extensions > Apps Script**.
-3. Replace the entire contents of `Code.gs` with this code:
-
-```javascript
-function doGet(e) {
-  var action = e.parameter.action;
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var allSheets = ss.getSheets();
-  var allSheetNames = allSheets.map(function(s) { return s.getName(); });
-
-  // 1. Fetch available sheet tabs
-  if (action === 'getSheets') {
-    return ContentService.createTextOutput(JSON.stringify({ sheets: allSheetNames }))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-
-  // 2. Add New Month Tab
-  if (action === 'addMonth') {
-    var newMonthName = e.parameter.newMonth;
-    if (!newMonthName) {
-      return ContentService.createTextOutput(JSON.stringify({ error: 'Month name required' }))
-        .setMimeType(ContentService.MimeType.JSON);
-    }
-
-    var existingSheet = ss.getSheetByName(newMonthName);
-    if (!existingSheet) {
-      var sourceSheet = (e.parameter.sourceMonth && ss.getSheetByName(e.parameter.sourceMonth)) 
-        ? ss.getSheetByName(e.parameter.sourceMonth) 
-        : allSheets[0];
-      
-      var newSheet = sourceSheet.copyTo(ss).setName(newMonthName);
-      var lastRow = newSheet.getLastRow();
-      if (lastRow > 1) {
-        newSheet.getRange(2, 1, lastRow - 1, 1).setValue(false);
-        newSheet.getRange(2, 6, lastRow - 1, 1).setValue(0);
-      }
-    }
-
-    return ContentService.createTextOutput(JSON.stringify({ 
-      success: true, 
-      sheets: ss.getSheets().map(function(s) { return s.getName(); }), 
-      newSheet: newMonthName 
-    })).setMimeType(ContentService.MimeType.JSON);
-  }
-
-  // 3. Delete Month Tab
-  if (action === 'deleteMonth') {
-    var monthToDelete = e.parameter.month;
-    if (allSheets.length <= 1) {
-      return ContentService.createTextOutput(JSON.stringify({ error: 'You cannot delete the only remaining month sheet.' }))
-        .setMimeType(ContentService.MimeType.JSON);
-    }
-
-    var targetSheet = ss.getSheetByName(monthToDelete);
-    if (targetSheet) {
-      ss.deleteSheet(targetSheet);
-    }
-
-    var remainingSheets = ss.getSheets().map(function(s) { return s.getName(); });
-    return ContentService.createTextOutput(JSON.stringify({ 
-      success: true, 
-      sheets: remainingSheets, 
-      currentSheet: remainingSheets[0] 
-    })).setMimeType(ContentService.MimeType.JSON);
-  }
-
-  var targetMonth = e.parameter.sheetName;
-  var sheet = (targetMonth && ss.getSheetByName(targetMonth)) ? ss.getSheetByName(targetMonth) : allSheets[0];
-
-  // 4. Fetch Month Data
-  if (action === 'getData') {
-    var lastRow = sheet.getLastRow();
-    var expData = [];
-
-    if (lastRow > 1) {
-      var expRows = sheet.getRange(2, 1, lastRow - 1, 3).getValues();
-      var spentRows = sheet.getRange(2, 6, lastRow - 1, 1).getValues();
-
-      for (var i = 0; i < expRows.length; i++) {
-        var rawPlanned = expRows[i][1];
-        var planned = parseFloat(String(rawPlanned).replace(/[^0-9.-]+/g, "")) || 0;
-        var desc = String(expRows[i][2] || '').trim();
-        var rawSpent = spentRows[i] ? spentRows[i][0] : 0;
-        var spent = parseFloat(String(rawSpent).replace(/[^0-9.-]+/g, "")) || 0;
-        var status = expRows[i][0] === true || (spent >= planned && planned > 0);
-
-        if (desc !== '' || planned > 0) {
-          expData.push([status, planned, desc, spent, i + 2]);
+            backgroundColor: ['#0284c7', '#f43f5e'],
+            borderWidth: 0,
+            borderRadius: 6
+          }]
+        },
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false, 
+          plugins: { 
+            legend: { 
+              position: 'bottom', 
+              labels: { 
+                color: textColor, 
+                font: { weight: '600', size: 12 },
+                padding: 16
+              } 
+            } 
+          },
+          cutout: '72%'
         }
-      }
+      });
     }
 
-    var incomeList = [];
-    var row3Source = String(sheet.getRange("D3").getValue() || "").trim();
-    var row3Amt = parseFloat(String(sheet.getRange("E3").getValue()).replace(/[^0-9.-]+/g, "")) || 0;
-    if (row3Source !== '' || row3Amt > 0) {
-      incomeList.push({ source: row3Source || "Salary", amount: row3Amt, rowIndex: 3 });
+    function exportToCSV() {
+      let csv = `Miriem Budget Statement - ${currentMonth}\n\n`;
+      csv += "EXPENSES\nStatus,Description,Planned Budget (EGP),Spent So Far (EGP),Remaining (EGP)\n";
+      allExpenses.forEach(e => {
+        const status = e.spent >= e.amount ? "PAID" : (e.spent > 0 ? "PARTIAL" : "PENDING");
+        const remaining = Math.max(0, e.amount - e.spent);
+        csv += `"${status}","${e.desc.replace(/"/g, '""')}",${e.amount},${e.spent},${remaining}\n`;
+      });
+
+      csv += "\nINCOME\nSource,Amount (EGP)\n";
+      allIncome.forEach(i => {
+        csv += `"${i.source.replace(/"/g, '""')}",${i.amount}\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Miriem_Expenses_${currentMonth.replace(/\s+/g, '_')}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
     }
 
-    var row4Source = String(sheet.getRange("D4").getValue() || "").trim();
-    var row4Amt = parseFloat(String(sheet.getRange("E4").getValue()).replace(/[^0-9.-]+/g, "")) || 0;
-    if (row4Source !== '' || row4Amt > 0) {
-      incomeList.push({ source: row4Source || "Extra Income", amount: row4Amt, rowIndex: 4 });
+    function exportToPDF() {
+      window.print();
     }
 
-    var extraIncomeRows = sheet.getRange("D12:E35").getValues();
-    for (var j = 0; j < extraIncomeRows.length; j++) {
-      var name = String(extraIncomeRows[j][0] || '').trim();
-      var amt = parseFloat(String(extraIncomeRows[j][1]).replace(/[^0-9.-]+/g, "")) || 0;
-      if (name !== '' || amt > 0) {
-        incomeList.push({
-          source: name,
-          amount: amt,
-          rowIndex: j + 12
-        });
-      }
+    function startCountdown() {
+      countdown = 30;
+      if (window.countdownInterval) clearInterval(window.countdownInterval);
+      window.countdownInterval = setInterval(() => {
+        countdown--;
+        if (countdown <= 0) {
+          countdown = 30;
+          fetchData();
+        }
+      }, 1000);
     }
 
-    var calculatedTotalIncome = 0;
-    for (var k = 0; k < incomeList.length; k++) {
-      calculatedTotalIncome += incomeList[k].amount;
+    function manualSync() {
+      fetchData();
+      startCountdown();
     }
 
-    return ContentService.createTextOutput(JSON.stringify({
-      expenses: expData,
-      totalIncome: calculatedTotalIncome,
-      incomeList: incomeList,
-      sheets: ss.getSheets().map(function(s) { return s.getName(); }),
-      currentSheet: sheet.getName()
-    })).setMimeType(ContentService.MimeType.JSON);
-  }
-
-  // 5. Edit Expense
-  if (action === 'editExpense') {
-    var row = parseInt(e.parameter.row);
-    var desc = e.parameter.desc;
-    var amount = parseFloat(e.parameter.amount);
-    var spent = parseFloat(e.parameter.spent);
-    var status = e.parameter.status === 'true';
-
-    if (row > 1) {
-      if (e.parameter.status !== undefined) sheet.getRange(row, 1).setValue(status);
-      if (desc !== undefined) sheet.getRange(row, 3).setValue(desc);
-      if (!isNaN(amount)) sheet.getRange(row, 2).setValue(amount);
-      if (!isNaN(spent)) sheet.getRange(row, 6).setValue(spent);
-      return ContentService.createTextOutput(JSON.stringify({ success: true }))
-        .setMimeType(ContentService.MimeType.JSON);
-    }
-  }
-
-  // 6. Add Expense
-  if (action === 'addExpense') {
-    var desc = e.parameter.desc || 'New Expense';
-    var amount = parseFloat(e.parameter.amount) || 0;
-    var spent = parseFloat(e.parameter.spent) || 0;
-    var status = e.parameter.status === 'true';
-
-    var nextRow = sheet.getLastRow() + 1;
-    sheet.getRange(nextRow, 1).setValue(status);
-    sheet.getRange(nextRow, 2).setValue(amount);
-    sheet.getRange(nextRow, 3).setValue(desc);
-    sheet.getRange(nextRow, 6).setValue(spent);
-
-    return ContentService.createTextOutput(JSON.stringify({ success: true }))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-
-  // 7. Delete Expense
-  if (action === 'deleteExpense') {
-    var row = parseInt(e.parameter.row);
-    if (row > 1) {
-      sheet.getRange(row, 1, 1, 3).clearContent();
-      sheet.getRange(row, 6).clearContent();
-      return ContentService.createTextOutput(JSON.stringify({ success: true }))
-        .setMimeType(ContentService.MimeType.JSON);
-    }
-  }
-
-  // 8. Edit Income (Any Row)
-  if (action === 'editIncome') {
-    var row = parseInt(e.parameter.row);
-    var source = e.parameter.source;
-    var amount = parseFloat(e.parameter.amount);
-    if (row >= 3) {
-      if (source !== undefined) sheet.getRange(row, 4).setValue(source);
-      if (!isNaN(amount)) sheet.getRange(row, 5).setValue(amount);
-      return ContentService.createTextOutput(JSON.stringify({ success: true }))
-        .setMimeType(ContentService.MimeType.JSON);
-    }
-  }
-
-  // 9. Add Income
-  if (action === 'addIncome') {
-    var source = e.parameter.source || 'Income';
-    var amount = parseFloat(e.parameter.amount) || 0;
-    
-    // Check main cells first if blank
-    if (sheet.getRange("D3").getValue() === "") {
-      sheet.getRange("D3").setValue(source);
-      sheet.getRange("E3").setValue(amount);
-    } else if (sheet.getRange("D4").getValue() === "") {
-      sheet.getRange("D4").setValue(source);
-      sheet.getRange("E4").setValue(amount);
-    } else {
-      var nextRow = 12;
-      while (sheet.getRange(nextRow, 4).getValue() !== "") {
-        nextRow++;
-      }
-      sheet.getRange(nextRow, 4, 1, 2).setValues([[source, amount]]);
-    }
-
-    return ContentService.createTextOutput(JSON.stringify({ success: true }))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-
-  // 10. Delete Income
-  if (action === 'deleteIncome') {
-    var row = parseInt(e.parameter.row);
-    if (row >= 3) {
-      sheet.getRange(row, 4, 1, 2).clearContent();
-      return ContentService.createTextOutput(JSON.stringify({ success: true }))
-        .setMimeType(ContentService.MimeType.JSON);
-    }
-  }
-
-  return ContentService.createTextOutput(JSON.stringify({ error: 'Invalid parameters' }))
-    .setMimeType(ContentService.MimeType.JSON);
-}
+    updateSoundButtonUI();
+    fetchData();
+    startCountdown();
+  </script>
+</body>
+</html>
