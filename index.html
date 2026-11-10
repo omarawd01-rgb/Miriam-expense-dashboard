@@ -9,7 +9,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Miriem Budget">
+  <meta name="apple-mobile-web-app-title" content="Miriam Budget">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
 
@@ -58,7 +58,7 @@
       <div class="flex items-center gap-3 flex-wrap">
         <span class="text-3xl select-none">🌸</span>
         <div>
-          <h1 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-tight">Miriem's Dashboard</h1>
+          <h1 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-tight">Miriam's Dashboard</h1>
           <p class="text-[11px] text-rose-500 font-medium">Live Google Sheet Sync</p>
         </div>
 
@@ -69,7 +69,7 @@
           <button onclick="openAddMonthModal()" class="bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/50 text-rose-600 dark:text-rose-300 border border-rose-200 dark:border-rose-900 text-xs font-semibold px-2.5 py-1.5 rounded-xl transition-all shadow-sm" title="Start New Month Tab">
             + Month
           </button>
-          <button onclick="confirmDeleteCurrentMonth()" class="bg-slate-100 dark:bg-slate-800 hover:bg-red-50 dark:hover:bg-red-950/50 text-slate-500 hover:text-red-600 border border-slate-200 dark:border-slate-700 text-xs font-semibold px-2 py-1.5 rounded-xl transition-all shadow-sm" title="Delete Current Month Tab">
+          <button onclick="confirmDeleteCurrentMonth()" class="bg-slate-100 dark:bg-slate-800 hover:bg-red-50 dark:hover:bg-red-950/50 text-slate-500 hover:text-red-600 border border-slate-200 dark:border-slate-700 text-xs font-semibold px-2.5 py-1.5 rounded-xl transition-all shadow-sm" title="Delete Current Month Tab">
             🗑️
           </button>
         </div>
@@ -145,7 +145,7 @@
       </div>
     </div>
 
-    <!-- Clean Savings Section (Extra Cards Removed) -->
+    <!-- Savings Section -->
     <div class="bg-gradient-to-r from-violet-500/10 via-purple-500/10 to-pink-500/10 dark:from-violet-950/40 dark:to-pink-950/30 p-5 sm:p-6 rounded-3xl shadow-sm border border-purple-200/60 dark:border-purple-900/50">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div class="flex items-center gap-3">
@@ -328,11 +328,11 @@
     let currentPage = 1;
     const pageSize = 15;
     let countdown = 30;
-    let currentMonth = localStorage.getItem('miriem_currentMonth') || '';
+    let currentMonth = localStorage.getItem('miriam_currentMonth') || '';
 
     let paidChartInstance = null;
     let audioCtx = null;
-    let isSoundEnabled = localStorage.getItem('miriem_soundEnabled') !== 'false';
+    let isSoundEnabled = localStorage.getItem('miriam_soundEnabled') !== 'false';
 
     function sortExpenses() {
       allExpenses.sort((a, b) => {
@@ -346,7 +346,7 @@
 
     function onMonthChange(selectedMonth) {
       currentMonth = selectedMonth;
-      localStorage.setItem('miriem_currentMonth', currentMonth);
+      localStorage.setItem('miriam_currentMonth', currentMonth);
       fetchData();
     }
 
@@ -404,7 +404,7 @@
 
         if (data.success) {
           currentMonth = newMonth;
-          localStorage.setItem('miriem_currentMonth', currentMonth);
+          localStorage.setItem('miriam_currentMonth', currentMonth);
           closeAddMonthModal();
           await fetchData();
         } else {
@@ -439,7 +439,7 @@
 
         if (data.success) {
           currentMonth = data.currentSheet;
-          localStorage.setItem('miriem_currentMonth', currentMonth);
+          localStorage.setItem('miriam_currentMonth', currentMonth);
           await fetchData();
         } else {
           alert('Could not delete month: ' + (data.error || 'Unknown error'));
@@ -472,7 +472,7 @@
 
     function toggleSound() {
       isSoundEnabled = !isSoundEnabled;
-      localStorage.setItem('miriem_soundEnabled', isSoundEnabled ? 'true' : 'false');
+      localStorage.setItem('miriam_soundEnabled', isSoundEnabled ? 'true' : 'false');
       updateSoundButtonUI();
     }
 
@@ -510,17 +510,17 @@
       const isDark = html.classList.contains('dark');
       if (isDark) {
         html.classList.remove('dark');
-        localStorage.setItem('miriem_theme', 'light');
+        localStorage.setItem('miriam_theme', 'light');
         document.querySelectorAll('.theme-icon').forEach(el => el.innerText = '🌙');
       } else {
         html.classList.add('dark');
-        localStorage.setItem('miriem_theme', 'dark');
+        localStorage.setItem('miriam_theme', 'dark');
         document.querySelectorAll('.theme-icon').forEach(el => el.innerText = '☀️');
       }
       updateMetricsAndCharts();
     }
 
-    if (localStorage.getItem('miriem_theme') === 'dark' || (!('miriem_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    if (localStorage.getItem('miriam_theme') === 'dark' || (!('miriam_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
       document.querySelectorAll('.theme-icon').forEach(el => el.innerText = '☀️');
     }
@@ -554,7 +554,7 @@
     function parseData(data) {
       if (data.currentSheet) {
         currentMonth = data.currentSheet;
-        localStorage.setItem('miriem_currentMonth', currentMonth);
+        localStorage.setItem('miriam_currentMonth', currentMonth);
       }
 
       const printLabel = document.getElementById('print-month-label');
@@ -1007,7 +1007,7 @@
     }
 
     function exportToCSV() {
-      let csv = `Miriem Budget Statement - ${currentMonth}\n\n`;
+      let csv = `Miriam Budget Statement - ${currentMonth}\n\n`;
       csv += "EXPENSES\nStatus,Description,Planned Budget (EGP),Spent So Far (EGP),Remaining (EGP)\n";
       allExpenses.forEach(e => {
         const status = e.spent >= e.amount ? "PAID" : (e.spent > 0 ? "PARTIAL" : "PENDING");
@@ -1026,7 +1026,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `Miriem_Expenses_${currentMonth.replace(/\s+/g, '_')}.csv`;
+      a.download = `Miriam_Expenses_${currentMonth.replace(/\s+/g, '_')}.csv`;
       a.click();
       URL.revokeObjectURL(url);
     }
